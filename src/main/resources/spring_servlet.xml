@@ -11,45 +11,12 @@
 					http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
 					http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-	<!--属性资源定位器：加载数据库属性文件 -->
-	<context:property-placeholder location="classpath:jdbc.properties" />
-	<!--设置spring容器的扫描范围，扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
-	<context:component-scan base-package="com.common,com.bjpowernode,com.codegen" />
 	<!--开起注解方式的springmvc -->
 	<mvc:annotation-driven />
+	 <!-- <context:component-scan base-package="com.cch.controllers" /> -->
 	
 	<!--让spring前端控制器跳过静态的资源请求 location路径, /resources/**这个文件夹下所有资源全部跳过 -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-	
-	<!--配置dbcp连接池JDBC数据源 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driverClassName}" />
-		<property name="url" value="${jdbc.url}" />
-		<property name="username" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
-	</bean>
-	
-	<!--配置Jdbc模板 -->
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSource"></property>
-	</bean>
-	
-	<!--配置namedJdbc模板 -->
-	<bean id="namedJdbcTemplate"
-		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-		<constructor-arg>
-			<ref bean="dataSource" />
-		</constructor-arg>
-	</bean>
-	
-	<!--配置springjdbc中的事务管理器 -->
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-		p:dataSource-ref="dataSource" />
-		
-	<!-- 基于注释的事务，当注释中发现@Transactional时，使用id为“transactionManager”的事务管理器 -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
 	
 	<!--配置视图解析器，将ModelAndView及字符串解析为具体的页面 -->
 	<bean
@@ -59,17 +26,11 @@
 		p:suffix=".jsp" />
 		
 	<!--文件上传下载专用的视图解析器CommonsMultipartResolver -->
-	<bean id="multipartResolver"
+	<!-- <bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxInMemorySize" value="10240" /> 
-		<!-- 最大使用内存大小 (10240)=10m -->
+		最大使用内存大小 (10240)=10m
 		<property name="maxUploadSize" value="-1" /> 
-		<!-- 最大文件大小，-1为无限止(-1) -->
-	</bean>
-	
-	<!-- 自定义的spring容器载加工具 -->
-	<bean id="SpringContextUtil" class="com.common.util.SpringContextUtil" />
-	
-	<!-- 启用注解式aop -->
-	<aop:aspectj-autoproxy />
+		最大文件大小，-1为无限止(-1)
+	</bean> -->
 </beans>

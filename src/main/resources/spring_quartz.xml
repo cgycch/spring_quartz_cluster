@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<bean id="jobDetail1"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass">
+			<value>org.cch.jobs.MyJob1</value>
+		</property>
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	
+	<bean id="jobDetail2"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass">
+			<value>org.cch.jobs.MyJob2</value>
+		</property>
+		<property name="durability" value="true" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+
+	<bean id="cronTrigger2"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="jobDetail2" />
+		<property name="cronExpression" value="0 0/3 * * * ?" />
+	</bean>
+
+	<bean id="simpleTrigger1"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="jobDetail1" />
+		<!-- <property name="startDelay" value="5" /> -->
+		<property name="repeatInterval" value="10000" /><!-- 每10秒 -->
+	</bean>
+
+
+	<!-- Quartz集群Schduler -->
+	<bean id="clusterQuartzScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!-- Triggers集成 动态配置 -->
+		<property name="triggers">
+			<list>
+				<!-- <ref bean="simpleTrigger1" /> -->
+				<ref bean="cronTrigger2" />
+			</list>
+		</property>
+		<!-- quartz配置文件路径, 指向cluster配置 -->
+		<property name="configLocation"
+			value="classpath:configs/quartz.properties" />
+		<!-- 启动时延期2秒开始任务 -->
+		<property name="startupDelay" value="2" />
+		<!-- 保存Job数据到数据库所需的数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- Job接受applicationContext的成员变量名 -->
+		<property name="applicationContextSchedulerContextKey"
+			value="applicationContext" />
+		<!-- 修改job时，更新到数据库 -->
+		<property name="overwriteExistingJobs" value="true" />
+	</bean>
+
+</beans>

@@ -1,11 +1,9 @@
-package org.cch;
+package org.cch.utils;
 import static org.quartz.CronScheduleBuilder.cronSchedule;
-import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
@@ -23,14 +21,13 @@ public class QuartzTaskUtils {
     public static String addTask(String jobName, String jobGroupName, String triggerName, String triggerGroupName,
             String cronExp, Class<?> jobClass, JdbcTemplate jdbcTemplate) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             SchedulerFactory schedulerFactory = new StdSchedulerFactory();
             Scheduler scheduler = schedulerFactory.getScheduler();
 
             JobDetail jobDetail = newJob(jobClass).withIdentity(jobName, jobGroupName).build();
             CronTrigger simpleTrigger = newTrigger().withIdentity(triggerName, triggerGroupName)
                     .withSchedule(cronSchedule(cronExp)).startNow().build();
-            Date ft = scheduler.scheduleJob(jobDetail, simpleTrigger);
+            scheduler.scheduleJob(jobDetail, simpleTrigger);
             scheduler.start();
             System.err.println("定时任务开始执行");
         } catch (ObjectAlreadyExistsException e) {
@@ -52,7 +49,7 @@ public class QuartzTaskUtils {
             JdbcTemplate jdbcTemplate) {
         try {
             String jobSql = "select * from qrtz_triggers where JOB_NAME = ? and JOB_GROUP = ?";
-            List jobList = jdbcTemplate.queryForList(jobSql, jobName, jobGroupName);
+            List<Map<String, Object>> jobList = jdbcTemplate.queryForList(jobSql, jobName, jobGroupName);
             if (jobList.size() < 1) {
                 return "数据库没有该任务";
             }
