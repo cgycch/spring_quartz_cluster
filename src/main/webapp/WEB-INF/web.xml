@@ -3,35 +3,36 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
-     <context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:spring_*.xml</param-value>
-  </context-param>
-  
-  <servlet>
-	    <listener>
-		    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	    </listener>
-	    
+	<display-name>Archetype Created Web Application</display-name>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring_*.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<servlet>
+
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
 				classpath*:spring_context.xml,
-	            classpath*:spring_quartz.xml,
-	            classpath*:spring_servlet.xml
+				classpath*:spring_quartz.xml,
+				classpath*:spring_servlet.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-  <servlet>
-  	<servlet-name>InitServlet</servlet-name>
-  	<display-name>InitServlet</display-name>
-  	<description></description>
-  	<servlet-class>org.cch.servlet.InitServlet</servlet-class>
-  </servlet>
+	<servlet>
+		<servlet-name>InitServlet</servlet-name>
+		<display-name>InitServlet</display-name>
+		<description></description>
+		<servlet-class>org.cch.servlet.InitServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
