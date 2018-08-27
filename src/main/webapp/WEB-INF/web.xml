@@ -4,16 +4,17 @@
 
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
-	<context-param>
+	
+	<!-- <context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring_*.xml</param-value>
-	</context-param>
+	</context-param> -->
 
-	<listener>
+	<!-- <listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+	</listener> -->
 
-	<servlet>
+<!-- 	<servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
@@ -25,20 +26,20 @@
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet>
+	</servlet> -->
+	<!-- <servlet>
 		<servlet-name>InitServlet</servlet-name>
 		<display-name>InitServlet</display-name>
 		<description></description>
 		<servlet-class>org.cch.servlet.InitServlet</servlet-class>
-	</servlet>
+	</servlet> -->
 
-	<servlet-mapping>
+<!-- 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>InitServlet</servlet-name>
 		<url-pattern>/InitServlet</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 </web-app>
