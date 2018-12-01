@@ -14,6 +14,6 @@ public class MyJob2 extends QuartzJobBean {
 	 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-    	System.out.println("MyJob2222:"+new SimpleDateFormat("YYYY-MM-dd-HH:mm:ss").format(new Date()));
+    	System.out.println("MyJob2222:"+new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }
 }

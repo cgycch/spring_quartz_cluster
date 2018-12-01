@@ -5,14 +5,24 @@
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
 	
-	<!-- <context-param>
+	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring_*.xml</param-value>
-	</context-param> -->
+	</context-param>
 
-	<!-- <listener>
+	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener> -->
+	</listener>
+	<servlet>
+		<servlet-name>quartzTestServlet</servlet-name>
+		<display-name>quartzTestServlet</display-name>
+		<description></description>
+		<servlet-class>org.cch.servlet.quartzTestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>quartzTestServlet</servlet-name>
+		<url-pattern>/quartz</url-pattern>
+	</servlet-mapping>
 
 <!-- 	<servlet>
 		<servlet-name>spring</servlet-name>

@@ -5,6 +5,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
+	<bean id="timeZone4Job" class="java.util.TimeZone"
+		factory-method="getTimeZone">
+		<constructor-arg value="Asia/Shanghai" type="String" /><!-- GMT+8:00 -->
+	</bean>
+
 	<bean id="jobDetail1"
 		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 		<property name="jobClass">
@@ -13,7 +18,7 @@
 		<property name="durability" value="true" />
 		<property name="requestsRecovery" value="true" />
 	</bean>
-	
+
 	<bean id="jobDetail2"
 		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 		<property name="jobClass">
@@ -26,7 +31,8 @@
 	<bean id="cronTrigger2"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="jobDetail2" />
-		<property name="cronExpression" value="0 0/3 * * * ?" />
+		<property name="cronExpression" value="0/20 * * * * ?" />
+		<property name="timeZone" ref="timeZone4Job" />
 	</bean>
 
 	<bean id="simpleTrigger1"
