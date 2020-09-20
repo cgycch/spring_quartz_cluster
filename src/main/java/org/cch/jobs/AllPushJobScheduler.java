@@ -50,7 +50,7 @@ public class AllPushJobScheduler {
 			
 			CronTrigger trigger = (CronTrigger) TriggerBuilder.newTrigger()
                     .withIdentity(getTriggerKey(allPushMessage))
-                    .forJob(notifyJob)
+					// .forJob(notifyJob)
 					.withSchedule(CronScheduleBuilder.cronSchedule(allPushMessage.getCronExpression()))
                     .build();
 			scheduler.scheduleJob(notifyJob, trigger);
@@ -184,36 +184,36 @@ public class AllPushJobScheduler {
 
 
 	public void testAdd() {
-		 try {  
-			    Scheduler scheduler = schedulerFactoryBean.getScheduler();
-			     JobKey jobKey = JobKey.jobKey("myJob1");
-			    if (scheduler.checkExists(jobKey)) {
-					logger.info("all push job existed!:" + jobKey.getName());
-					return;
-				}
-	            // 任务名，任务组，任务执行类
-	            JobDetail jobDetail= JobBuilder.newJob(MyJob1.class).withIdentity("myJob1").build();
+		try {
+			Scheduler scheduler = schedulerFactoryBean.getScheduler();
+			JobKey jobKey = JobKey.jobKey("myJob1", "myGroup1");
+			if (scheduler.checkExists(jobKey)) {
+				logger.info("all push job existed!:" + jobKey.getName());
+				return;
+			}
+			// 任务名，任务组，任务执行类
+			JobDetail jobDetail = JobBuilder.newJob(MyJob1.class).withIdentity(jobKey).build();
 
-	            // 触发器  
-	            TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
-	            // 触发器名,触发器组  
-	            triggerBuilder.withIdentity("triggerName1", "triggerGroupName1");
-	            triggerBuilder.startNow();
-	            // 触发器时间设定  
-	            triggerBuilder.withSchedule(CronScheduleBuilder.cronSchedule("0/3 * * * * ?"));
-	            // 创建Trigger对象
-	            CronTrigger trigger = (CronTrigger) triggerBuilder.build();
+			// 触发器
+			TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
+			// 触发器名,触发器组
+			triggerBuilder.withIdentity("triggerName1", "triggerGroupName1");
+			// triggerBuilder.startNow();
+			// 触发器时间设定
+			triggerBuilder.withSchedule(CronScheduleBuilder.cronSchedule("0/3 * * * * ?"));
+			// 创建Trigger对象
+			CronTrigger trigger = (CronTrigger) triggerBuilder.build();
 
-	            // 调度容器设置JobDetail和Trigger
-	            scheduler.scheduleJob(jobDetail, trigger);  
+			// 调度容器设置JobDetail和Trigger
+			scheduler.scheduleJob(jobDetail, trigger);
 
-	            // 启动  
-	            if (scheduler.isShutdown()) {  
-	            	scheduler.start();  
-	            }  
-	        } catch (Exception e) {  
-	            throw new RuntimeException(e);  
-	        }  
+			// 启动
+			if (scheduler.isShutdown()) {
+				scheduler.start();
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
