@@ -7,27 +7,17 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring_*.xml</param-value>
+		<!-- <param-value>classpath:spring_*.xml</param-value> -->
+		<param-value>	
+				classpath:spring_context.xml,
+			 	<!-- classpath*:spring_quartz.xml, -->
+		</param-value>
 	</context-param>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-
-	<servlet>
-		<servlet-name>spring</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>
-				classpath*:spring_context.xml,
-				classpath*:spring_quartz.xml,
-				classpath*:spring_servlet.xml
-			</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
 	
 	<servlet>
 		<servlet-name>quartzTestServlet</servlet-name>
@@ -41,6 +31,7 @@
 		<display-name>InitServlet</display-name>
 		<description></description>
 		<servlet-class>org.cch.servlet.InitServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
 		<servlet-name>QuartzDbServlet</servlet-name>
@@ -48,15 +39,13 @@
 		<description></description>
 		<servlet-class>org.cch.servlet.QuartzDbServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>DistributorServlet</servlet-name>
+		<display-name>DistributorServlet</display-name>
+		<description>Distributor</description>
+		<servlet-class>org.cch.servlet.DistributorServlet</servlet-class>
+	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>spring</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>	
-	<servlet-mapping>
-		<servlet-name>InitServlet</servlet-name>
-		<url-pattern>/InitServlet</url-pattern>
-	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>quartzTestServlet</servlet-name>
 		<url-pattern>/quartz</url-pattern>
@@ -64,5 +53,9 @@
 	<servlet-mapping>
 		<servlet-name>QuartzDbServlet</servlet-name>
 		<url-pattern>/quartz/tables</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DistributorServlet</servlet-name>
+		<url-pattern>/distribute</url-pattern>
 	</servlet-mapping>
 </web-app>
