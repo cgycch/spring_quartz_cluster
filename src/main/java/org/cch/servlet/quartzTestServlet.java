@@ -22,16 +22,17 @@ public class quartzTestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("start");
 		AllPushJobScheduler schedulerDemo = (AllPushJobScheduler) InAppBeanFactory.getBean("allPushJobScheduler");
-		schedulerDemo.listAllJobs();
 		
 		System.out.println("###################");
 		String act = request.getParameter("act");
 		Writer writer = response.getWriter();
 		writer.append("act: " + act + "  ");
+
 		AllPushMessage allPushMessage = new AllPushMessage(); 
 		allPushMessage.setCronExpression("0/20 * * * * ?");
 		allPushMessage.setPush_id("testAdd".toCharArray());
 		allPushMessage.setPush_time(new Date());
+
 		if("1".equals(act)) {
 			writer.append(" add ");
 			schedulerDemo.addJob(allPushMessage);

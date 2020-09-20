@@ -3,7 +3,10 @@ package org.cch.component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import lombok.Getter;
+
 @Component
+@Getter
 public class BaseBean {
 	
 	private String name;
@@ -14,15 +17,9 @@ public class BaseBean {
 	public BaseBean() {
 		System.out.println("BaseBean()");
 	}
-	public String getName() {
-		return name;
-	}
 	public void setName(String name) {
 		this.name = name;
 		System.out.println("BaseBean::setName()");
-	}
-	public BaseBean2 getBean() {
-		return bean;
 	}
 	public void setBean(BaseBean2 bean) {
 		this.bean = bean;

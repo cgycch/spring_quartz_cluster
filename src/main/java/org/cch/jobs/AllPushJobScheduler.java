@@ -28,19 +28,6 @@ public class AllPushJobScheduler {
 		System.out.println("AllPushJobScheduler()");
 	}
 	
-
-	/**
-	 * 查询所有任务
-	 */
-	public void listAllJobs() {
-		 Scheduler scheduler = schedulerFactoryBean.getScheduler();
-		 try {
-			 QuartzDemo.getAllJobs(scheduler);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
 	/**
 	 * 添加任务
 	 * 
@@ -64,7 +51,7 @@ public class AllPushJobScheduler {
 			CronTrigger trigger = (CronTrigger) TriggerBuilder.newTrigger()
                     .withIdentity(getTriggerKey(allPushMessage))
                     .forJob(notifyJob)
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0/30 * * * * ?"))
+					.withSchedule(CronScheduleBuilder.cronSchedule(allPushMessage.getCronExpression()))
                     .build();
 			scheduler.scheduleJob(notifyJob, trigger);
 			if(scheduler.isShutdown()) {

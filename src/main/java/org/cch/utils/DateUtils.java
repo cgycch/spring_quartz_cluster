@@ -1,4 +1,4 @@
-package org.cch.jobs;
+package org.cch.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

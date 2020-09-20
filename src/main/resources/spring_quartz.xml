@@ -31,15 +31,15 @@
 	<bean id="cronTrigger2"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="jobDetail2" />
-		<property name="cronExpression" value="0/20 * * * * ?" />
+		<property name="cronExpression" value="0 0/10 * * * ?" />
 		<property name="timeZone" ref="timeZone4Job" />
-	</bean>
+	</bean> 
 
 	<bean id="simpleTrigger1"
 		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
 		<property name="jobDetail" ref="jobDetail1" />
-		<!-- <property name="startDelay" value="5" /> -->
-		<property name="repeatInterval" value="10000" /><!-- 每10秒 -->
+		<property name="startDelay" value="5" />
+		<property name="repeatInterval" value="100000" />
 	</bean>
 
 
@@ -49,8 +49,8 @@
 		<!-- Triggers集成 动态配置 -->
 		<property name="triggers">
 			<list>
-				<!-- <ref bean="simpleTrigger1" /> -->
-				<ref bean="cronTrigger2" />
+			<ref bean="simpleTrigger1" /> 
+			 <ref bean="cronTrigger2" />
 			</list>
 		</property>
 		<!-- quartz配置文件路径, 指向cluster配置 -->
