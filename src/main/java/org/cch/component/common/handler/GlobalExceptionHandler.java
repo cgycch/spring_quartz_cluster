@@ -8,6 +8,11 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+	public GlobalExceptionHandler() {
+		super();
+		System.out.println("GlobalExceptionHandler...");
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ModelAndView customException(Exception e) {
 		ModelAndView mv = new ModelAndView();
