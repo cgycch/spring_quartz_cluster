@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+	<description>MQ</description>
+	
+	 <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">  
+        <property name="brokerURL" value="${mq.brokerURL}"/>  
+<!--         <property name="userName" value="${mq.userName}"></property>  
+        <property name="password" value="${mq.password}"></property>   -->
+    </bean>  
+	
+	<!-- ConnectionFactoryAdapter -->
+	<bean id="userCredentialsConnectionFactoryAdapter" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+		<property name="username" value="${mq.userName}"/>
+		<property name="password" value="${mq.userName}"/>
+		<property name="targetConnectionFactory" ref="jmsConnectionFactory"/>
+    </bean>
+    
+    <!-- spring缓存管理mq队列连接工厂 -->
+	<bean id="jmsQueueConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <property name="targetConnectionFactory" ref="userCredentialsConnectionFactoryAdapter"/>
+        <property name="sessionCacheSize" value="2"/>
+    </bean>
+	
+	
+	<!-- 定义消息队列（Queue） -->
+	<bean id="demoQueueDestination"
+		class="org.apache.activemq.command.ActiveMQQueue">
+		<!-- 设置消息队列的名字 -->
+		<constructor-arg>
+			<value>demoQueue</value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 配置JMS模板（Queue），Spring提供的JMS工具类，它发送、接收消息。 -->
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="jmsQueueConnectionFactory" />
+		<property name="defaultDestination" ref="demoQueueDestination" />
+		<property name="receiveTimeout" value="10000" />
+	</bean>
+	
+	<!-- 队列发送程序 -->
+    <bean id="jmsSender" class="org.cch.jms.JMSSender">  
+        <property name="jmsTemplate" ref="jmsTemplate" />  
+    </bean>
+    
+      <!-- 队列接收程序 -->
+    <bean id="jmsReceiver" class="org.cch.jms.JMSReceiver">  
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean> 
+    
+     <bean  id="backOff" class="org.springframework.util.backoff.FixedBackOff">
+        <property name="maxAttempts" value="2"/>
+    </bean>
+        
+    <!-- spring 监听队列，一旦队列中有消息，马上触发监听 -->
+    <bean id="jmsContainer"
+        class="org.springframework.jms.listener.DefaultMessageListenerContainer">  
+        <property name="connectionFactory" ref="jmsQueueConnectionFactory" />  
+        <property name="destination" ref="demoQueueDestination" />  
+        <property name="messageListener" ref="jmsReceiver" />  
+        <property name="concurrentConsumers" value="1" /> 
+        <property name="backOff" ref="backOff"/>
+    </bean>
+
+</beans>

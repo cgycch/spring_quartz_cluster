@@ -153,7 +153,17 @@
 		    <version>1.1.2</version>
 		</dependency>
 		
-		
+		 <!-- mq -->
+	     <dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-jms</artifactId>
+	        <version>${spring.version}</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.apache.activemq</groupId>
+	        <artifactId>activemq-all</artifactId>
+	        <version>5.4.3</version>
+	    </dependency>
 		
  
     </dependencies>

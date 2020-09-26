@@ -30,6 +30,8 @@
 			<param-value>
 				classpath:spring_context.xml,
 				classpath:spring_mvc_servlet.xml,
+				classpath:spring_mq.xml,
+				<!-- classpath:spring_quartz.xml, -->
 			</param-value>
 		</init-param>
 	</servlet>

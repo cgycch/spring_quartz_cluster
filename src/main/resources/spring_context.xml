@@ -21,7 +21,7 @@
 
 	<!--属性资源定位器：属性文件读入 -->
 	<context:property-placeholder
-		location="classpath:configs/jdbc.properties" />
+		location="classpath:configs/*.properties" />
 	<!-- <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
 		<property name="locations"> <list> <value>classpath:jdbc.properties</value> 
 		</list> </property> </bean> -->
